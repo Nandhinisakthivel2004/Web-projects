@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Calculator</title>
+    <style>
+         body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #e9ecef;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+        }
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #343a40;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #495057;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #28a745;
+            color: #ffffff;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>BMI Calculator</h1>
+        <form id="bmiForm">
+            <div class="form-group">
+                <label for="weight">Weight (kg):</label>
+                <input type="number" id="weight" placeholder="Enter your weight" step="0.1" required>
+            </div>
+            <div class="form-group">
+                <label for="height">Height (cm):</label>
+                <input type="number" id="height" placeholder="Enter your height" step="0.1" required>
+            </div>
+            <button type="submit">Calculate BMI</button>
+        </form>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        document.getElementById('bmiForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission
+           
+            const weight = parseFloat(document.getElementById('weight').value);
+            const height = parseFloat(document.getElementById('height').value) / 100; // Convert cm to meters
+            if (isNaN(weight) || isNaN(height) || weight <= 0 || height <= 0) {
+                displayResult('Please enter valid weight and height values.');
+                return;
+            }
+            const bmi = weight / (height * height);
+            const category = getBMICategory(bmi);
+            const suggestions = getSuggestions(category);
+           
+            displayResult(`
+                <h2>Your BMI: ${bmi.toFixed(2)}</h2>
+                <p>Category: ${category}</p>
+                <p>${suggestions}</p>
+            `);
+        });
+        function getBMICategory(bmi) {
+            if (bmi < 18.5) return 'Underweight';
+            if (bmi < 24.9) return 'Normal weight';
+            if (bmi < 29.9) return 'Overweight';
+            return 'Obesity';
+        }
+        function getSuggestions(category) {
+            switch (category) {
+                case 'Underweight':
+                    return 'You might want to gain some weight. Consider consulting a nutritionist or a healthcare provider for personalized advice.';
+                case 'Normal weight':
+                    return 'You have a healthy weight. Maintain a balanced diet and regular exercise to stay healthy.';
+                case 'Overweight':
+                    return 'Consider adopting a healthier lifestyle with balanced nutrition and regular physical activity. Consulting a healthcare provider can be beneficial.';
+                case 'Obesity':
+                    return 'It is important to seek advice from a healthcare professional to create a plan for weight management and overall health improvement.';
+                default:
+                    return '';
+            }
+        }
+        function displayResult(message) {
+            document.getElementById('result').innerHTML = message;
+        }
+    </script>
+</body>
+</html>
+
+
+
+    
+
+
+
+
+       
+
+
+
